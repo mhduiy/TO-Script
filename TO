@@ -48,7 +48,7 @@ toClone() {
     echo "*********克隆[$1]*********"
     sleep 1
     repo=$1
-    git clone "ssh://ut005580@gerrit.uniontech.com:29418/${repo}"
+
     echo $repo
     cd ${repo}
     echo "TO: 安装编译依赖"
