@@ -2,8 +2,7 @@
 
 将各种复杂命令，和工作从常用的命令集合在脚本中，通过方便的参数来运行
 
-- [ ]TO deleteDevFile 删除~/Dev/下的所有文件（不包括文件夹）
-- [ ] MNotificationBox 通知控件
+- [ ] TO deleteDevFile 删除~/Dev/下的所有文件（不包括文件夹）
 - [ ] TO clone dde-session-shell 克隆仓库（可配置规则）
 - [ ] TO noProxy 不加代理运行命令
 - [ ] TO localProxy 加本地代理运行命令
