@@ -1,4 +1,4 @@
-# TO-Script
+## TO-Script
 
 将各种复杂命令，和工作从常用的命令集合在脚本中，通过方便的参数来运行
 
@@ -13,6 +13,12 @@
 - [ ] TO gitRestoreBranch 重置当前分支
 - [ ] TO upgrade 更新脚本
 - [ ] TO codecodecode 一键部署开发环境  安装包，获取打印ssh
+
+## 快速安装
+
+```bash
+curl https://raw.githubusercontent.com/mhduiy/TO-Script/main/install.sh | bash
+```
 
 ## License
 

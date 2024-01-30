@@ -57,7 +57,7 @@ toClone() {
 }
 
 toUpgrade() {
-    wget -O - https://github.com/mhduiy/TO-Script/install.sh | bash
+    curl https://raw.githubusercontent.com/mhduiy/TO-Script/main/install.sh | bash
 }
 
 # 检查参数
