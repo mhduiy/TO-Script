@@ -1,1 +1,88 @@
 #!/bin/bash
+
+#!/bin/bash
+
+# 显示帮助信息
+show_help() {
+    echo "用法: TO [选项]"
+    echo "选项:"
+    echo "  deleteDevFile     删除~/Dev/下的所有文件（不包括文件夹）"
+    echo "  clone <addr>      克隆仓库（可配置规则）"
+    echo "  noProxy <cmd>     不加代理运行命令"
+    echo "  localProxy <cmd>  加本地代理运行命令"
+    echo "  buildPackage      编译打包（带-nc)"
+    echo "  reBuildPackage    重新编译打包deb"
+    echo "  gitDiff           查看上一次提交和此次提交的差异"
+    echo "  gitResetBranch    重置当前分支"
+    echo "  codecodecode      一键部署开发环境"
+    echo "  upgrade           更新当前脚本,需要sudo"
+}
+
+# 删除Dev文件夹
+delete_dev_folder() {
+    echo "Deleting Dev folder..."
+    # 在这里添加删除Dev文件夹的具体命令
+}
+
+toDeployDevelopmentEnv() {
+    echo "*********一键部署开发环境*********"
+    sleep 1
+    echo "TO: 准备安装git,qt5-default,dtk,qtcreator,ssh,htop"
+    sudo apt install git
+    echo "TO: 启动ssh.service并设置开机自启动"
+    sudo systemctl restart ssh.service > /dev/null 2>&1
+    sudo systemctl enable ssh.service > /dev/null 2>&1
+    echo "TO: 内网激活系统"
+
+    echo "TO: 生成ssh密钥"
+    echo -e "TO: ssh密钥如下:\n"
+    cat ~/.ssh/id_rsa.pub
+    echo -e "\nTO: IP如下:\n"
+    ip_address=$(ifconfig | grep -oP 'inet\s+\K[^\s]+')
+    echo -e "$ip_address\n"
+
+    echo "TO: 执行完成"
+}
+
+toClone() {
+    echo "*********克隆[$1]*********"
+    sleep 1
+    repo=$1
+    git clone "ssh://ut005580@gerrit.uniontech.com:29418/${repo}"
+    echo $repo
+    cd ${repo}
+    echo "TO: 安装编译依赖"
+    sudo apt build-dep .
+    echo "TO: 执行完成"
+}
+
+toUpgrade() {
+    wget -O - https://github.com/mhduiy/TO-Script/install.sh | bash
+}
+
+# 检查参数
+if [ "$#" -eq 0 ] || [ "$1" == "--help" ]; then
+    show_help
+    exit 0
+fi
+
+# 根据传递的参数执行相应操作
+case "$1" in
+"deleteDevFile")
+    delete_dev_folder
+    ;;
+"codecodecode")
+    toDeployDevelopmentEnv
+    ;;
+"clone")
+    toClone $2
+    ;;
+"upgrade")
+    toUpgrade $2
+    ;;
+*)
+    echo "Unknown command: $1"
+    show_help
+    exit 1
+    ;;
+esac
