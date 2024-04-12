@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 # 显示帮助信息
 show_help() {
     echo "用法: TO [选项]"
@@ -21,7 +19,7 @@ show_help() {
 # 删除Dev文件夹
 delete_dev_folder() {
     echo "Deleting Dev folder..."
-    # 在这里添加删除Dev文件夹的具体命令
+    find . -maxdepth 1 -type f -delete
 }
 
 toDeployDevelopmentEnv() {
@@ -46,14 +44,23 @@ toDeployDevelopmentEnv() {
 
 toClone() {
     echo "*********克隆[$1]*********"
-    sleep 1
     repo=$1
-
-    echo $repo
-    cd ${repo}
+    git clone git@github.com:${repo}
+    addr=$(echo "$repo" | awk -F/ '{print $NF}')
+    echo "$addr"
+    cd ${addr}
     echo "TO: 安装编译依赖"
     sudo apt build-dep .
     echo "TO: 执行完成"
+}
+
+toNoProxy() {
+    # 设置不使用代理的环境变量
+    export http_proxy=
+    export https_proxy=
+
+    # 执行传递给脚本的命令
+    "$@"
 }
 
 toUpgrade() {
@@ -79,6 +86,10 @@ case "$1" in
     ;;
 "upgrade")
     toUpgrade $2
+    ;;
+"noProxy")
+    shift  # 移除一个参数
+    toNoProxy "$@"  # 将剩余的参数传递给 toNoProxy 函数
     ;;
 *)
     echo "Unknown command: $1"
