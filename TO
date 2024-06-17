@@ -14,6 +14,7 @@ show_help() {
     echo "  gitResetBranch    重置当前分支"
     echo "  codecodecode      一键部署开发环境"
     echo "  upgrade           更新当前脚本,需要sudo"
+    echo "  logout            注销DDE"
 }
 
 # 删除Dev文件
@@ -67,6 +68,10 @@ toUpgrade() {
     curl https://raw.githubusercontent.com/mhduiy/TO-Script/main/install.sh | bash
 }
 
+toLogout() {
+    /usr/libexec/dde-session-ctl -s
+}
+
 # 检查参数
 if [ "$#" -eq 0 ] || [ "$1" == "--help" ]; then
     show_help
@@ -90,6 +95,9 @@ case "$1" in
 "noProxy")
     shift  # 移除一个参数
     toNoProxy "$@"  # 将剩余的参数传递给 toNoProxy 函数
+    ;;
+"logout")
+    toLogout $2
     ;;
 *)
     echo "Unknown command: $1"
